@@ -22,7 +22,7 @@ public class Ball {
 		increment = (int) -(Math.random()*3+2);
 	}
 	
-	public void draw() {
+	public void draw() { 
 		parent.fill(255);
 		parent.stroke(128);
 		parent.ellipse(x, y,radius, radius);
@@ -30,6 +30,8 @@ public class Ball {
 	
 	public void fly() {
 		y += increment;
+		if (y <-5 )
+			trash.add(this);
 	}
 	Ball me = this;
 	private class ClickChecker extends MouseAdapter {

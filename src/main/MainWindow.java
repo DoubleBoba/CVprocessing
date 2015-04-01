@@ -15,7 +15,7 @@ public class MainWindow extends PApplet {
 	PApplet me = this;
 	@Override
 	public void setup() {
-		size(640,480);
+		size(1280,720);
 		lastAdd = new Date();
 		lastMove = new Date();
 	}
@@ -33,16 +33,19 @@ public class MainWindow extends PApplet {
 	}
 	Date lastAdd;
 	private void addBall() {
-		if (checkTime(lastAdd, 2000)) {
+		if (checkTime(lastAdd, 1)) {
 			balls.add(new Ball(this, balls, ballsToRemove));
+			System.out.println(balls.size());
+			lastAdd = new Date();
 		}
 	}
 	
 	Date lastMove;
 	private void moveBalls() {
-		if (checkTime(lastMove, 50)) {
+		if (checkTime(lastMove, 1 )) {
 			for (Ball b: balls)
 				b.fly();
+			lastMove = new Date();
 		}
 	}
 	
