@@ -7,15 +7,18 @@ import java.util.Date;
 import java.util.List;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 
 public class MainWindow extends PApplet {
 	
-	List<Ball> balls = Collections.synchronizedList(new ArrayList<Ball>());
-	List<Ball> ballsToRemove = Collections.synchronizedList(new ArrayList<Ball>());
 	PApplet me = this;
+	PFont font;
+	ArrayList<Ball> balls = StaticRefs.balls;
+	ArrayList<Ball> ballsTrash = StaticRefs.ballsTrash;
 	@Override
 	public void setup() {
 		size(1280,720);
+		font = createFont("Arial", 16, true);
 		lastAdd = new Date();
 		lastMove = new Date();
 	}
@@ -28,21 +31,23 @@ public class MainWindow extends PApplet {
 		}
 		addBall();
 		moveBalls();
-		balls.removeAll(ballsToRemove);
-		ballsToRemove.removeAll(ballsToRemove);
+		balls.removeAll(ballsTrash);
+		ballsTrash.removeAll(ballsTrash);
+		textFont(font, 16);
+		fill(255);
+		text("Your points: "+StaticRefs.count, 0, 16);
 	}
 	Date lastAdd;
 	private void addBall() {
-		if (checkTime(lastAdd, 1)) {
-			balls.add(new Ball(this, balls, ballsToRemove));
-			System.out.println(balls.size());
+		if (checkTime(lastAdd, 200)) {
+			balls.add(new Ball(this));
 			lastAdd = new Date();
 		}
 	}
 	
 	Date lastMove;
 	private void moveBalls() {
-		if (checkTime(lastMove, 1 )) {
+		if (checkTime(lastMove, 10 )) {
 			for (Ball b: balls)
 				b.fly();
 			lastMove = new Date();

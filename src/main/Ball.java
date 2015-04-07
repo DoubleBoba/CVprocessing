@@ -11,15 +11,15 @@ public class Ball {
 	PApplet parent;
 	List< Ball> balls, trash;
 	int x,y,radius, increment;
-	public Ball(PApplet parent, List<Ball> balls, List<Ball> trash) {
+	public Ball(PApplet parent) {
 		this.parent = parent;
-		this.balls = balls;
-		this.trash = trash;
-		y = parent.height + 5;
+		this.balls = StaticRefs.balls;
+		this.trash = StaticRefs.ballsTrash;
+		y = parent.height + 30;
 		x = (int) (Math.random()*(parent.width - 20)+20);
-		radius = (int) (Math.random()*10+10);
+		radius = (int) (Math.random()*20+20);
 		parent.addMouseListener(new ClickChecker());
-		increment = (int) -(Math.random()*3+2);
+		increment = (int) -(Math.random()*2+2);
 	}
 	
 	public void draw() { 
@@ -44,6 +44,7 @@ public class Ball {
 			if (pointDimens(new Point(x,y), new Point(mx,my)) <= radius) {
 				parent.removeMouseListener(this);
 				trash.add(me);
+				StaticRefs.count+=1;
 			}
 			
 		}
@@ -53,7 +54,7 @@ public class Ball {
 	}
 	private int pointDimens(Point p1, Point p2) {
 		return (int) (Math.sqrt(sq(Math.max(p1.x, p2.x)- Math.min(p1.x, p2.x)) 
-					 		   +
+					 		    +
 					 		    sq(Math.max(p1.y, p2.y)- Math.min(p1.y, p2.y))));
 			
 	}
