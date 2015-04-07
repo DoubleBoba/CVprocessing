@@ -6,21 +6,24 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import Ball.Ball;
 import processing.core.PApplet;
 import processing.core.PFont;
 
 public class MainWindow extends PApplet {
 	
-	PApplet me = this;
 	PFont font;
 	ArrayList<Ball> balls = StaticRefs.balls;
 	ArrayList<Ball> ballsTrash = StaticRefs.ballsTrash;
 	@Override
 	public void setup() {
+		StaticRefs.parent = this;
+		StaticRefs.initImages();
 		size(1280,720);
 		font = createFont("Arial", 16, true);
 		lastAdd = new Date();
 		lastMove = new Date();
+		
 	}
 	@Override
 	public void draw() {
@@ -40,8 +43,9 @@ public class MainWindow extends PApplet {
 	Date lastAdd;
 	private void addBall() {
 		if (checkTime(lastAdd, 200)) {
-			balls.add(new Ball(this));
+			balls.add(new Ball());
 			lastAdd = new Date();
+			System.out.println(balls.size());
 		}
 	}
 	
