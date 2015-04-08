@@ -28,7 +28,7 @@ public class Ball {
 		x = (int) (Math.random()*(parent.width - 20)+20);
 		radius = (int) (Math.random()*20+20);
 		increment = (int) -(Math.random()*2+2);
-		straid = new Curve(this, 5, 5, 5, increment);
+		straid = new Curve(this, 7, 6, 5, 1);
 		parent.addMouseListener(new ClickChecker());
 		
 	}
@@ -43,9 +43,10 @@ public class Ball {
 		y += increment;
 		if (y <-5 )
 			trash.add(this);
-		parent.fill(192,64,0);
+		parent.fill(192, 64, 0, 255);
+		parent.stroke(255);
 		straid.dangle();
-		parent.fill(255);
+		parent.stroke(128);
 	}
 	public int getX() {
 		return x;

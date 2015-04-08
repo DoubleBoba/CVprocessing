@@ -1,5 +1,7 @@
 package Ball;
 
+import javax.swing.text.DefaultEditorKit.CutAction;
+
 import main.StaticRefs;
 import processing.core.PApplet;
 /**
@@ -19,18 +21,18 @@ class Curve {
 		this.myBall = myBall;
 		this.splines = new Spline[splines];
 		boolean negative = false;
-		for (int i = getY(),
+		for (int i = 0,
 				sp = 0; sp < splines; i+=step, sp++) {
 			
-			this.splines[sp] = new Spline(getY(), i, amplitude, i+step, speed);
+			this.splines[sp] = new Spline(getX(), i, amplitude, i+step, speed);
 			amplitude = -amplitude;
 			
 		}
 	}
 	public void dangle() {
 		parent.beginShape();
-		parent.curveVertex(myBall.getX(), getY());
-		parent.curveVertex(myBall.getX(), getY());
+		parent.curveVertex(getX(), getY()-3);
+		parent.curveVertex(getX(), getY()-3);
 		for (int sp = 0; sp < splines.length; sp++) {
 			splines[sp].move();
 			parent.curveVertex(splines[sp].getX(), splines[sp].getY());
@@ -42,31 +44,32 @@ class Curve {
 	private int getY() {
 		return myBall.getY() + step + myBall.getRadius();
 	}
+	private int getX() {
+		// TODO Auto-generated method stub
+		return myBall.getX() + myBall.getRadius()/2;
+	}
 	Curve c = this;
 	private class Spline {
-		private int x,y, shift, maxY, curY, speed;
-		public Spline(int x,int y, int shift, int maxY,
+		private int x,yShift, shift,  speed, increment;
+		public Spline(int x,int yShift, int shift, int maxY,
 				int speed) {
 			this.x = x;
-			this.y = y;
-			this.curY = y;
+			this.yShift = yShift;
 			this.shift = shift;
-			this.maxY = maxY;
-			this.speed = speed;
+			this.increment = 0;
+			this.speed = speed * (shift/Math.abs(shift));
 		}
 		public void move() {
-			curY-=speed;
-			if (curY>maxY){
-				y -=step;
-				curY = y;
-				shift = -(shift);
-			}	
+			increment+=speed;
+			if ( Math.abs(increment) >= Math.abs(shift) ) {
+				speed = -(speed);
+			}
 		}
 		public int getX() {
-			return x + shift;
+			return x + increment;
 		}
 		public int getY() {
-			return curY;
+			return c.getY() + yShift;
 		}
 	} //End of Spline
 }
